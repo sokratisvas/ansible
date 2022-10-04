@@ -1,0 +1,79 @@
+---
+-
+  hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+    -
+      name: 'Install wget'
+      become: yes
+      ansible.builtin.apt:
+        name: wget
+
+    -
+      name: 'Install snap'
+      become: yes
+      ansible.builtin.apt:
+        name: snapd
+
+    -
+      name: 'Install core'
+      become: yes
+      snap:
+        name: core
+
+  # -
+  #   name: 'Reboot'
+  #   ansible.builtin.reboot:
+    
+    - 
+      name: 'Install Slack'
+      become: yes
+      snap:
+        name: slack
+        classic: yes
+      
+
+    # With apt
+
+          #-
+          #  name: 'Install Slack'
+          #  get_url:
+          #    url: https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.deb
+          #    dest: ~/Dgnh/fh.deb
+          #    mode: '0440'
+
+
+          # -
+          #   name: 'Install libindicator'
+          #   become: yes
+          #   get_url:
+          #     url: http://ftp.de.debian.org/debian/pool/main/libi/libindicator/libindicator3-7_0.5.0-3+b1_amd64.deb
+          #     dest: /Downloads
+          #     mode: '0440'
+
+          # -
+          #   name: 'Install libindicator pt2'
+          #   become: yes
+          #   ansible.builtin.apt:
+          #     name: ./libindicator3-7_*_amd64.deb
+
+          # -
+          #   name: 'Install libappindicator'    
+          #   become: yes
+          #   get_url:
+          #     url: http://ftp.de.debian.org/debian/pool/main/liba/libappindicator/libappindicator3-1_0.4.92-7_amd64.deb
+          #     dest: /Downloads
+          #     mode: '0440'
+
+          # -
+          #   name: 'Install libappindicator pt2'
+          #   become: yes
+          #   ansible.builtin.apt:
+          #     name: ./libappindicator3-1_*_amd64.deb
+
+          #-
+          #  name: 'Install Slack'
+          #  become: yes
+          #  ansible.builtin.apt:
+          #    name: slack-desktop-*.deb
