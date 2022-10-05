@@ -1,6 +1,6 @@
 ---
 -
-  hosts: ubuntu01 
+  hosts: mint01 
 
   tasks:
     -
