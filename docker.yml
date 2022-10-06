@@ -17,9 +17,11 @@
     -
       name: 'Import Docker GPG key'
       become: yes
-      ansible.builtin.apt_key:
+      ansible.builtin.get_url:
         url: 'https://download.docker.com/linux/ubuntu/gpg'
-        state: present
+        dest: '/etc/apt/trusted.gpg.d/docker.asc'
+        mode: '0644'
+        force: yes
 
           #-
           #  name: 'Update permissions for /usr/share/keyrings/docker-archive-keyring.gpg'
