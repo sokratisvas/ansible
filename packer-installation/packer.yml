@@ -1,0 +1,38 @@
+---
+- 
+  hosts: localhost
+  tasks:
+    -
+      name: Import Packer GPG key
+      become: yes
+      ansible.builtin.get_url:
+        url: https://apt.releases.hashicorp.com/gpg 
+        dest: /tmp/packer-gpg-key 
+        mode: '0644'
+        force: yes
+    -
+      name: Convert key in binary
+      #ansible.builtin.command: gpg --dearmor < /tmp/packer-gpg-key > /usr/share/keyrings/packer-archive-keyring.gpg
+      ansible.builtin.shell: sudo gpg --dearmor /tmp/packer-gpg-key | sudo tee /usr/share/keyrings/packer-archive-keyring.gpg 
+      #ansible.builtin.command: sudo gpg --dearmor /tmp/packer-gpg-key | sudo tee /usr/share/keyrings/packer-archive-keyring.gpg 
+
+
+    -
+      name: Add the Packer repository
+      become: yes
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/packer.gpg] https://apt.releases.hashicorp.com bullseye main
+        state: present
+
+    - 
+      name: Update all Packages
+      become: yes
+      ansible.builtin.apt:
+          update_cache: yes
+          cache_valid_time: 86400
+
+    - 
+      name: Install Packer
+      become: yes
+      ansible.builtin.apt:
+        name: packer 
