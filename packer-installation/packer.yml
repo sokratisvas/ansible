@@ -3,35 +3,48 @@
   hosts: localhost
   
   vars:
-    - dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
-    - key_url:  'https://apt.releases.hashicorp.com/gpg'
-    - key_dest: /tmp/packer-gpg-key
-    - dearmored_key_dest: /usr/share/keyrings/packer.gpg  
+    - key_url:  https://apt.releases.hashicorp.com/gpg
+    - key_name: packer-gpg-key      
     - repo_url: https://apt.releases.hashicorp.com
     - release: bullseye main 
 
   tasks:
     -
+      name: Run dpkg --print-architecture command 
+      ansible.builtin.shell: dpkg --print-architecture
+      register: arch
+
+    -
+      name: Get the dpkg Architecture
+      set_fact:
+        dpkg_arch: "{{ arch.stdout }}"
+
+    -
       name: Import Packer GPG key
       become: yes
       ansible.builtin.get_url:
         url: "{{ key_url }}"
-        dest: "{{ key_dest }}" 
+        dest: "/tmp/{{ key_name }}" 
         mode: '0644'
         force: yes
 
     -
-      name: Convert key in binary
-      #ansible.builtin.command: gpg --dearmor < /tmp/packer-gpg-key > /usr/share/keyrings/packer-archive-keyring.gpg
-      ansible.builtin.shell: sudo gpg --dearmor {{ key_dest }} | sudo tee {{ dearmored_key_dest }} 
-      #ansible.builtin.command: sudo gpg --dearmor /tmp/packer-gpg-key | sudo tee /usr/share/keyrings/packer-archive-keyring.gpg 
+      name: Dearmor the GPG key
+      become: yes
+      ansible.builtin.shell: gpg --dearmor /tmp/{{ key_name }}
        
+    -
+      name: Copy the dearmored GPG key to /usr/share/keyrings/
+      become: yes
+      ansible.builtin.shell: tee /tmp/{{ key_name }} < /usr/share/keyrings/{{ key_name }} > /dev/null  
+
     -
       name: Add the Packer repository
       become: yes
       ansible.builtin.apt_repository:
-        repo: deb [arch={{ dpkg_arch }} signed-by={{ dearmored_key_dest }}] {{ repo_url }} {{ release }}
+        repo: deb [arch={{ dpkg_arch }} signed-by=/usr/share/keyrings/{{ key_name }}] {{ repo_url }} {{ release }}
         state: present
+        filename: packer-repo
 
     - 
       name: Update all Packages
@@ -45,4 +58,3 @@
       become: yes
       ansible.builtin.apt:
         name: packer 
-
