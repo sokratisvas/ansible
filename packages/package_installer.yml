@@ -4,6 +4,12 @@
   ansible.builtin.shell: dpkg --print-architecture
   register: arch
 
+-    
+  name: Install Dependencies 
+  become: yes
+  ansible.builtin.apt:
+    name: "{{ item.package_dependencies }}" 
+
 -
   name: Import GPG key
   become: yes
