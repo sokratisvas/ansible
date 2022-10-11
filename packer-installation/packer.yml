@@ -6,18 +6,23 @@
     - key_url:  https://apt.releases.hashicorp.com/gpg
     - key_name: packer-gpg-key      
     - repo_url: https://apt.releases.hashicorp.com
+    - repo_name: packer-repo
     - release: bullseye main 
 
   tasks:
     -
-      name: Run dpkg --print-architecture command 
+      name: Find dpkg architecture
       ansible.builtin.shell: dpkg --print-architecture
       register: arch
+
+    - debug:
+        var: arch.stdout_lines
 
     -
       name: Get the dpkg Architecture
       set_fact:
-        dpkg_arch: "{{ arch.stdout }}"
+        #dpkg_arch: "{{ arch.stdout }}"
+        dpkg_arch: arch.stdout
 
     -
       name: Import Packer GPG key
@@ -44,14 +49,14 @@
       ansible.builtin.apt_repository:
         repo: deb [arch={{ dpkg_arch }} signed-by=/usr/share/keyrings/{{ key_name }}] {{ repo_url }} {{ release }}
         state: present
-        filename: packer-repo
+        filename: "{{ repo_name }}"
 
     - 
       name: Update all Packages
       become: yes
       ansible.builtin.apt:
-          update_cache: yes
-          cache_valid_time: 86400
+        update_cache: yes
+        cache_valid_time: 86400
 
     - 
       name: Install Packer
