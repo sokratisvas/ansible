@@ -1,31 +1,36 @@
 ---
 - 
   hosts: localhost
-  tasks:
-    -
-      name: Set DPKG architecture 
-      set_fact:
-        dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+  
+  vars:
+    - dpkg_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+    - key_url:  'https://apt.releases.hashicorp.com/gpg'
+    - key_dest: /tmp/packer-gpg-key
+    - dearmored_key_dest: /usr/share/keyrings/packer.gpg  
+    - repo_url: https://apt.releases.hashicorp.com
+    - release: bullseye main 
 
+  tasks:
     -
       name: Import Packer GPG key
       become: yes
       ansible.builtin.get_url:
-        url: https://apt.releases.hashicorp.com/gpg 
-        dest: /tmp/packer-gpg-key 
+        url: "{{ key_url }}"
+        dest: "{{ key_dest }}" 
         mode: '0644'
         force: yes
+
     -
       name: Convert key in binary
       #ansible.builtin.command: gpg --dearmor < /tmp/packer-gpg-key > /usr/share/keyrings/packer-archive-keyring.gpg
-      ansible.builtin.shell: sudo gpg --dearmor /tmp/packer-gpg-key | sudo tee /usr/share/keyrings/packer-archive-keyring.gpg 
+      ansible.builtin.shell: sudo gpg --dearmor {{ key_dest }} | sudo tee {{ dearmored_key_dest }} 
       #ansible.builtin.command: sudo gpg --dearmor /tmp/packer-gpg-key | sudo tee /usr/share/keyrings/packer-archive-keyring.gpg 
        
     -
       name: Add the Packer repository
       become: yes
       ansible.builtin.apt_repository:
-        repo: deb [arch={{ dpkg_arch }} signed-by=/usr/share/keyrings/packer.gpg] https://apt.releases.hashicorp.com bullseye main
+        repo: deb [arch={{ dpkg_arch }} signed-by={{ dearmored_key_dest }}] {{ repo_url }} {{ release }}
         state: present
 
     - 
@@ -40,3 +45,4 @@
       become: yes
       ansible.builtin.apt:
         name: packer 
+
