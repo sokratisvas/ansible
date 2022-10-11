@@ -9,6 +9,8 @@
         repo_url: https://apt.releases.hashicorp.com
         repo_name: packer-repo
         release: bullseye main 
+        package_installations:
+          - packer
 
   tasks:
     - 

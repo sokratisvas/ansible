@@ -5,12 +5,7 @@
   register: arch
 
 -
-  name: Get the dpkg Architecture
-  set_fact:
-    dpkg_arch: arch.stdout
-
--
-  name: Import Packer GPG key
+  name: Import GPG key
   become: yes
   ansible.builtin.get_url:
     url: "{{ item.key_url }}"
@@ -19,20 +14,15 @@
     force: yes
 
 -
-  name: Dearmor the GPG key
+  name: Dearmor and copy the GPG key
   become: yes
-  ansible.builtin.shell: gpg --dearmor /tmp/{{ item.key_name }}
- 
--    
-  name: Copy the dearmored GPG key to /usr/share/keyrings/
-  become: yes
-  ansible.builtin.shell: tee /tmp/{{ item.key_name }} < /usr/share/keyrings/{{ item.key_name }} > /dev/null  
+  ansible.builtin.shell: gpg -o /usr/share/keyrings/{{ item.key_name }} --dearmor /tmp/{{ item.key_name }}
 
 -    
-  name: Add the Packer repository
+  name: Add the repository
   become: yes
   ansible.builtin.apt_repository:
-    repo: deb [arch={{ dpkg_arch }} signed-by=/usr/share/keyrings/{{ item.key_name }}] {{ item.repo_url }} {{ item.release }}
+    repo: deb [arch={{ arch.stdout }} signed-by=/usr/share/keyrings/{{ item.key_name }}] {{ item.repo_url }} {{ item.release }}
     state: present
     filename: "{{ item.repo_name }}"
 
@@ -44,8 +34,8 @@
     cache_valid_time: 86400
 
 -    
-  name: Install Packer
+  name: Install required Packages
   become: yes
   ansible.builtin.apt:
-    name: packer 
+    name: "{{ item.package_installations }}" 
 

@@ -34,14 +34,9 @@
         force: yes
 
     -
-      name: Dearmor the GPG key
+      name: Dearmor and copy the GPG key
       become: yes
-      ansible.builtin.shell: gpg --dearmor /tmp/{{ key_name }}
-       
-    -
-      name: Copy the dearmored GPG key to /usr/share/keyrings/
-      become: yes
-      ansible.builtin.shell: tee /tmp/{{ key_name }} < /usr/share/keyrings/{{ key_name }} > /dev/null  
+      ansible.builtin.shell: gpg -o /usr/share/keyrings/{{ key_name }} --dearmor /tmp/{{ key_name }}
 
     -
       name: Add the Packer repository
