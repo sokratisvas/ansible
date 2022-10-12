@@ -38,8 +38,26 @@
         package_installations:
           - helm
 
+      - key_url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_Testing/Release.key 
+        key_name: kubic-gpg-key
+        repo_url: 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_Testing/ /'
+        repo_name: kubic-repo
+        release: ''
+        package_dependencies: []
+        package_installations: []
+
+      - key_url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.21:/1.21.7/Debian_Testing/Release.key
+        key_name: crio-gpg-key
+        repo_url: 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.21:/1.21.7/Debian_Testing /'
+        repo_name: crio-repo
+        release: ''
+        package_dependencies: []
+        package_installations:
+          - cri-o
+          - cri-o-runc
+
   tasks:
     - 
       name: Install all packages
-      include_tasks: template.yml
+      include_tasks: package_installer.yml
       loop: "{{ package_list }}"
