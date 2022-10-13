@@ -1,0 +1,7 @@
+---
+-
+  name: 'Install pomodoro repo'
+  ansible.builtin.git:
+    repo: 'https://github.com/sokratisvas/pomodoro'
+    dest: '~/Downloads/ansipomo'
+

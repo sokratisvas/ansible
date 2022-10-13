@@ -1,0 +1,7 @@
+---
+key_url:  https://apt.releases.hashicorp.com/gpg
+key_name: packer-gpg-key      
+repo_url: https://apt.releases.hashicorp.com
+repo_name: packer-repo
+release: bullseye main 
+

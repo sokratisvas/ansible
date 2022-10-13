@@ -1,0 +1,41 @@
+---
+-
+  name: 'Install dependencies'
+  become: yes
+  ansible.builtin.apt:
+    name: 
+      - 'apt-transport-https'
+      - 'ca-certificates'
+      - 'curl'
+      - 'gnupg2' 
+      - 'software-properties-common'
+
+-
+  name: 'Import Docker GPG key'
+  become: yes
+  ansible.builtin.get_url:
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    dest: '/etc/apt/trusted.gpg.d/docker.asc'
+    mode: '0644'
+    force: yes
+
+      #-
+      #  name: 'Update permissions for /usr/share/keyrings/docker-archive-keyring.gpg'
+      #  become: yes
+      #  file: dest=~/usr/share/keyrings/docker-archive-keyring.gpg mode=a+x
+
+-
+  name: 'Add the Docker repository to Linux Mint'
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'
+    state: present
+
+-
+  name: 'Install Docker'
+  become: yes
+  ansible.builtin.apt:
+    name: 
+      - 'docker-ce'
+      - 'docker-ce-cli'
+      - 'containerd.io'

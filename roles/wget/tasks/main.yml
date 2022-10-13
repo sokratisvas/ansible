@@ -1,0 +1,7 @@
+---
+-
+  name: 'Install wget'
+  become: yes
+  ansible.builtin.apt:
+    name: wget
+

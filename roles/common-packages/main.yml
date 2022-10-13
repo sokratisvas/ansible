@@ -1,0 +1,16 @@
+---
+- 
+  hosts: localhost
+
+  tasks:
+  -
+    name: Include variables in vars/main.yml
+    include_vars: 
+      dir: vars
+      files_matching: main.yml
+
+  - 
+    name: Install all packages
+    include_role: 
+      name: roles/apt-key-repo-installer
+    loop: "{{ package_list }}"
