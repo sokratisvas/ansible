@@ -4,12 +4,6 @@
   ansible.builtin.shell: dpkg --print-architecture
   register: arch
 
--    
-  name: Install Dependencies 
-  become: yes
-  ansible.builtin.apt:
-    name: "{{ item.package_dependencies }}" 
-
 -
   name: Import GPG key
   become: yes
@@ -31,17 +25,3 @@
     repo: deb [arch={{ arch.stdout }} signed-by=/usr/share/keyrings/{{ item.key_name }}] {{ item.repo_url }} {{ item.release }}
     state: present
     filename: "{{ item.repo_name }}"
-
--    
-  name: Update all Packages
-  become: yes
-  ansible.builtin.apt:
-    update_cache: yes
-    cache_valid_time: 86400
-
--    
-  name: Install required Packages
-  become: yes
-  ansible.builtin.apt:
-    name: "{{ item.package_installations }}" 
-
