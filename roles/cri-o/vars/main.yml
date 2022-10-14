@@ -1,5 +1,0 @@
----
-key_url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.21:/1.21.7/Debian_Testing/Release.key
-key_name: crio-gpg-key
-repo_url: 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.21:/1.21.7/Debian_Testing /'
-repo_name: crio-repo

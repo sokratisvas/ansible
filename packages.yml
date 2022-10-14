@@ -4,9 +4,8 @@
   hosts: localhost
 
   roles:
-    - packer
     - docker
-    - helm
-    - kubic
     - cri-o
+    - packer
+    - helm
 

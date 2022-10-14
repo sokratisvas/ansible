@@ -1,5 +1,0 @@
----
-key_url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_Testing/Release.key 
-key_name: kubic-gpg-key
-repo_url: 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_Testing/ /'
-repo_name: kubic-repo

@@ -1,14 +1,23 @@
 ---
 -
-  name: Include variables in vars/main.yml
-  include_vars: 
-    dir: vars
-    files_matching: main.yml
+  name: Import/Dearmor/Copy the kubic GPG key and add the repo
+  import_role: 
+    name: roles/apt-key-repo-installer
+  vars:
+    - key_url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_Testing/Release.key 
+    - key_name: kubic-gpg-key
+    - repo_url: 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_Testing/ /'
+    - repo_name: kubic-repo
 
 -
-  name: Import/Dearmor/Copy the GPG key and add the repo
-  include_role: 
+  name: Import/Dearmor/Copy the cri-o GPG key and add the repo
+  import_role: 
     name: roles/apt-key-repo-installer
+  vars:
+    - key_url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.21:/1.21.7/Debian_Testing/Release.key
+    - key_name: crio-gpg-key
+    - repo_url: 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.21:/1.21.7/Debian_Testing /'
+    - repo_name: crio-repo
 
 - 
   name: Update all Packages

@@ -1,14 +1,13 @@
 ---
 -
-  name: Include variables in vars/main.yml
-  include_vars: 
-    dir: vars
-    files_matching: main.yml
-
--
   name: Import/Dearmor/Copy the GPG key and add the repo
-  include_role: 
+  import_role: 
     name: roles/apt-key-repo-installer
+  vars:
+    - key_url:  https://apt.releases.hashicorp.com/gpg
+    - key_name: packer-gpg-key      
+    - repo_url: https://apt.releases.hashicorp.com bullseye main
+    - repo_name: packer-repo
 
 - 
   name: Update all Packages
