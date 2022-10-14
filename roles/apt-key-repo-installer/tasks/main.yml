@@ -8,20 +8,20 @@
   name: Import GPG key
   become: yes
   ansible.builtin.get_url:
-    url: "{{ item.key_url }}"
-    dest: "/tmp/{{ item.key_name }}" 
+    url: "{{ key_url }}"
+    dest: "/tmp/{{ key_name }}" 
     mode: '0644'
     force: yes
 
 -
   name: Dearmor and copy the GPG key
   become: yes
-  ansible.builtin.shell: gpg -o /usr/share/keyrings/{{ item.key_name }} --dearmor /tmp/{{ item.key_name }}
+  ansible.builtin.shell: gpg -o /usr/share/keyrings/{{ key_name }} --dearmor /tmp/{{ key_name }}
 
 -    
   name: Add the repository
   become: yes
   ansible.builtin.apt_repository:
-    repo: deb [arch={{ arch.stdout }} signed-by=/usr/share/keyrings/{{ item.key_name }}] {{ item.repo_url }} {{ item.release }}
+    repo: deb [arch={{ arch.stdout }} signed-by=/usr/share/keyrings/{{ key_name }}] {{ repo_url }}
     state: present
-    filename: "{{ item.repo_name }}"
+    filename: "{{ repo_name }}"

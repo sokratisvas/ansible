@@ -9,16 +9,3 @@
   name: Import/Dearmor/Copy the GPG key and add the repo
   include_role: 
     name: roles/apt-key-repo-installer
-
-- 
-  name: Update all Packages
-  become: yes
-  ansible.builtin.apt:
-    update_cache: yes
-    cache_valid_time: 86400
-
-- 
-  name: Install Packer
-  become: yes
-  ansible.builtin.apt:
-    name: packer 

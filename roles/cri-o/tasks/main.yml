@@ -18,7 +18,10 @@
     cache_valid_time: 86400
 
 - 
-  name: Install Packer
+  name: Install CRI-O
   become: yes
   ansible.builtin.apt:
-    name: packer 
+    name: 
+      - cri-o
+      - cri-o-runc
+

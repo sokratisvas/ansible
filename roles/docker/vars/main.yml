@@ -1,0 +1,5 @@
+---
+key_url: https://download.docker.com/linux/debian/gpg 
+key_name: docker-gpg-key
+repo_url: https://download.docker.com/linux/debian bullseye stable
+repo_name: docker-repo

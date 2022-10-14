@@ -17,8 +17,9 @@
     update_cache: yes
     cache_valid_time: 86400
 
-- 
-  name: Install Packer
+-
+  name: Install Helm
   become: yes
   ansible.builtin.apt:
-    name: packer 
+    name: helm
+
