@@ -21,6 +21,21 @@ $ sudo apt-get update
 $ sudo apt-get install packer
 ```
 # Common Packages
+Configure ```packages.yml```:
+``` yml
+---
+-
+  name: Install common packages
+  hosts: localhost
+
+  roles:
+    - packer
+    - docker
+    - helm
+    - kubic
+    - cri-o
+```
+Build the playbook with:
 ``` bash
-$ ansible-playbook roles/common-packages/main.yml --ask-become-pass
+$ ansible-playbook  packages.yml --ask-become-pass
 ```
