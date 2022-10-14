@@ -1,5 +1,16 @@
 ---
--
+- 
+  name: Install cri-o dependencies
+  apt:
+    name:
+      - curl
+      - gnupg2
+      - libseccomp2
+      - ca-certificates
+      - apt-transport-https
+      - software-properties-common
+    state: present
+
   name: Import/Dearmor/Copy the kubic GPG key and add the repo
   import_role: 
     name: roles/apt-key-repo-installer
