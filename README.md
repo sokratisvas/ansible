@@ -14,5 +14,5 @@ Configure ```packages.yml```:
 ```
 Build the playbook with:
 ``` bash
-$ ansible-playbook  packages.yml --ask-become-pass
+$ ansible-playbook packages.yml --ask-become-pass
 ```
