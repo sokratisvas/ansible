@@ -1,3 +1,8 @@
+# Install Ansible Galaxy Role with:
+```bash
+$ ansible-galaxy install -r requirements.yml
+```
+
 # Configure ```packages.yml```:
 ``` yml
 ---
@@ -6,11 +11,10 @@
   hosts: localhost
 
   roles:
-    - packer
     - docker
-    - helm
-    - kubic
     - cri-o
+    - packer
+    - helm
 ```
 
 # Build the playbook with:
@@ -18,8 +22,4 @@
 $ ansible-playbook packages.yml --ask-become-pass
 ```
 
-# Install Ansible Galaxy Role with:
-```bash
-$ ansible-galaxy install -r requirements.yml
-```
 
