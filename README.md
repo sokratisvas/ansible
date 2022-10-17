@@ -1,4 +1,4 @@
-Configure ```packages.yml```:
+# Configure ```packages.yml```:
 ``` yml
 ---
 -
@@ -12,7 +12,14 @@ Configure ```packages.yml```:
     - kubic
     - cri-o
 ```
-Build the playbook with:
+
+# Build the playbook with:
 ``` bash
 $ ansible-playbook packages.yml --ask-become-pass
 ```
+
+# Install Ansible Galaxy Role with:
+```bash
+$ ansible-galaxy install -r requirements.yml
+```
+

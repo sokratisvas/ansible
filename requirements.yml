@@ -1,0 +1,3 @@
+# Install the role from GitHub
+- name: apt-key-repo-installer
+  src: https://github.com/sokratisvas/apt-key-repo-installer
