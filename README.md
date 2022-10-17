@@ -17,7 +17,7 @@ $ ansible-galaxy install -r requirements.yml
     - helm
 ```
 
-# Build the playbook with:
+# Run the playbook with:
 ``` bash
 $ ansible-playbook packages.yml --ask-become-pass
 ```
