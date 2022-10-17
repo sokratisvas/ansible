@@ -13,7 +13,7 @@
 -
   name: Import/Dearmor/Copy the GPG key and add the repo
   import_role: 
-    name: roles/apt-key-repo-installer
+    name: sokratisvas.apt_key_repo_installer 
   vars:
     - key_url: https://download.docker.com/linux/debian/gpg 
     - key_name: docker-gpg-key

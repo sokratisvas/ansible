@@ -14,7 +14,7 @@
 -
   name: Import/Dearmor/Copy the kubic GPG key and add the repo
   import_role: 
-    name: roles/apt-key-repo-installer
+    name: sokratisvas.apt_key_repo_installer 
   vars:
     - key_url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_Testing/Release.key 
     - key_name: kubic-gpg-key
@@ -24,7 +24,7 @@
 -
   name: Import/Dearmor/Copy the cri-o GPG key and add the repo
   import_role: 
-    name: roles/apt-key-repo-installer
+    name: sokratisvas.apt_key_repo_installer
   vars:
     - key_url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.21:/1.21.7/Debian_Testing/Release.key
     - key_name: crio-gpg-key
